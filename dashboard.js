@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return
   }
 
-  document.getElementById("current-user").textContent = Welcome, ${user.username}
+  document.getElementById("current-user").textContent = `Welcome, ${user.username}`
 
   initMap()
 
@@ -79,7 +79,7 @@ function initMap() {
     if (locationInput.value) {
       try {
         const response = await fetch(
-          https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput.value)},
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationInput.value)}`,
         )
         const data = await response.json()
 
@@ -112,7 +112,7 @@ function setMarker(lat, lng) {
 
 async function reverseGeocode(lat, lng) {
   try {
-    const response = await fetch(https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng})
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
     const data = await response.json()
 
     if (data && data.display_name) {
@@ -148,7 +148,7 @@ eventForm.addEventListener("submit", async (e) => {
   try {
     const token = localStorage.getItem("token")
 
-    const response = await fetch(${API_URL}/events, {
+    const response = await fetch(`${API_URL}/events`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -191,7 +191,7 @@ eventForm.addEventListener("submit", async (e) => {
 
 async function loadEvents() {
   try {
-    const response = await fetch(${API_URL}/events)
+    const response = await fetch(`${API_URL}/events`)
     const events = await response.json()
 
     if (!response.ok) {
@@ -240,8 +240,8 @@ async function loadEvents() {
     }
 
     filteredEvents.sort((a, b) => {
-      const dateA = new Date(${a.date}T${a.time})
-      const dateB = new Date(${b.date}T${b.time})
+      const dateA = new Date(`${a.date}T${a.time}`)
+      const dateB = new Date(`${b.date}T${b.time}`)
       return dateA - dateB
     })
 
@@ -257,7 +257,7 @@ async function loadEvents() {
       eventCard.className = "event-card"
       eventCard.dataset.eventId = event._id
 
-      const eventDate = new Date(${event.date}T${event.time})
+      const eventDate = new Date(`${event.date}T${event.time}`)
       const formattedDate = eventDate.toLocaleDateString("en-US", {
         weekday: "short",
         month: "short",
@@ -298,7 +298,7 @@ function showEventDetails(event) {
   document.getElementById("modal-event-title").textContent = event.title
   document.getElementById("modal-event-description").textContent = event.description
 
-  const eventDate = new Date(${event.date}T${event.time})
+  const eventDate = new Date(`${event.date}T${event.time}`)
   const formattedDate = eventDate.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -310,7 +310,7 @@ function showEventDetails(event) {
     minute: "2-digit",
   })
 
-  document.getElementById("modal-event-datetime").textContent = ${formattedDate}, ${formattedTime}
+  document.getElementById("modal-event-datetime").textContent =  `${formattedDate}, ${formattedTime}`
   document.getElementById("modal-event-organizer").textContent = event.organizer
   document.getElementById("modal-event-location").textContent = event.location
 
@@ -358,7 +358,7 @@ function showMessage(message, type = "success") {
   }
 
   messageElement.textContent = message
-  messageElement.className = message ${type}
+  messageElement.className = `message ${type}`
 
   messageElement.style.padding = "0.75rem 1.5rem"
   messageElement.style.marginBottom = "1rem"
